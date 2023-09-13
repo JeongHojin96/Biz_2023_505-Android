@@ -12,91 +12,75 @@ class App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      debugShowMaterialGrid: false,
-      title: "Flutter State",
-      theme: ThemeData(primarySwatch: Colors.green),
-      home: const HomePage(),
-    );
+        debugShowCheckedModeBanner: false,
+        debugShowMaterialGrid: false,
+        title: "Flutter State",
+        theme: ThemeData(primarySwatch: Colors.green),
+        home: const HomePage());
   }
 }
 
+/// State 클래스를 관리하는 부모 클래스
+/// State 를 생성(create) 한다
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
+
+  /// => StartPage()
+  /// StartPage class 의 생성자를 호출하여 StartPage 의 객체를 생성하여
+  /// return 하라 라는 의미
   @override
   State<StatefulWidget> createState() => StartPage();
 }
 
+/// State Widget 에서는 StatefulWidget 과 관계를 명확하기 위하여
+/// Generic(<HomePage>)을 연결하여 준다
 class StartPage extends State<HomePage> {
-  var titles = [
-    "가",
-    "나",
-    "다",
-    "라",
-    "마",
-    "바",
-    "사",
+  /// State 클래스 위젯에서 titles 배열 변수를 생성(선언과 초기화)
+  /// 이 순간 titles 는 state 가 된다.
+  /// state : 화면 rendering, 또는 동적인 활동을 감시할수 있는 동적 변수
+  final titles = [
+    "Hello Korea",
+    "안녕하세요",
+    "반갑습니다",
+    "우리나라만세",
+    "대한민국 만세",
+    "Republic of Korea"
   ];
 
   final studentList = [
-    Student(stNum: "001", stName: "테스트 성공했냐?"),
-    Student(stNum: "002", stName: "홍길동"),
-    Student(stNum: "003", stName: "홍길동"),
-    Student(stNum: "004", stName: "홍길동"),
-    Student(stNum: "005", stName: "홍길동"),
-    Student(stNum: "006", stName: "홍길동"),
-    Student(stNum: "007", stName: "홍길동"),
+    Student(stNum: "001", stName: "홍길동"),
+    Student(stNum: "002", stName: "이몽룡"),
+    Student(stNum: "003", stName: "성춘향"),
+    Student(stNum: "004", stName: "임꺽정"),
+    Student(stNum: "005", stName: "장보고"),
+    Student(stNum: "006", stName: "장녹수"),
   ];
 
+  /// 동적으로 변화되는 배열(리스트) 요소들을 화면에 출력하기 위하여
+  /// ListView.builder() 함수를 사용하여 각 요소를 디자인한다
   ListView appBarBody() => ListView.builder(
-        itemCount: titles.length,
+        itemCount: studentList.length,
         itemBuilder: (context, index) {
           return ListTile(
             title: Material(
               child: InkWell(
                 onTap: () {
-                  showDialog(
-                    context: context,
-                    barrierDismissible: true,
-                    builder: (BuildContext context) {
-                      return AlertDialog(
-                        content: Text(studentList[index].stName),
-                        insetPadding: const EdgeInsets.fromLTRB(0, 80, 0, 80),
-                        actions: [
-                          TextButton(
-                            child: const Text('닫기'),
-                            onPressed: () {
-                              Navigator.of(context).pop();
-                            },
-                          ),
-                        ],
-                      );
-                    },
+                  var snackBar = SnackBar(
+                    content: Text(studentList[index].stName),
                   );
+                  ScaffoldMessenger.of(context).showSnackBar(snackBar);
                 },
                 highlightColor:
-                    const Color.fromARGB(255, 255, 161, 161).withOpacity(0.5),
+                    const Color.fromARGB(255, 117, 28, 201).withOpacity(0.5),
                 splashColor:
-                    const Color.fromARGB(255, 48, 82, 41).withOpacity(0.5),
+                    const Color.fromARGB(255, 139, 241, 22).withOpacity(0.5),
                 child: Padding(
-                  padding: const EdgeInsets.all(20.0),
+                  padding: const EdgeInsets.all(20),
                   child: Row(
                     children: [
-                      // 이미지 추가
-                      const Icon(Icons.person), // 아이콘 이미지 또는 이미지 위젯을 사용
-                      const SizedBox(width: 10), // 이미지와 텍스트 간격
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Row(
-                            children: [
-                              Text(studentList[index].stNum),
-                              const SizedBox(width: 10), // 텍스트 간격 조절
-                              Text(studentList[index].stName),
-                            ],
-                          ),
-                        ],
-                      ),
+                      Text(studentList[index].stNum ?? ""),
+                      const Text("AAA"),
+                      Text(studentList[index].stName),
                     ],
                   ),
                 ),
@@ -110,21 +94,25 @@ class StartPage extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("안녕하세요."),
+        title: const Text("안녕하세요"),
         centerTitle: true,
         actions: [
           IconButton(
-              onPressed: () {
-                var rnd = Random().nextDouble();
-                setState(() {
-                  titles.add(rnd.toString());
-                });
-              },
-              icon: const Icon(
-                Icons.add_outlined,
-              ))
+            onPressed: () {
+              var rnd = Random().nextDouble();
+
+              /// flutter 의 State 클래스에서 기본으로 제공하는 함수
+              /// state 로 선언된 변수의 값을 변경할때 사용하는 함수
+              /// 이 함수내의 본문에서 state 변수의 값(상태)을 변경하면
+              /// 화면에 자동 rendering 이 된다.
+              setState(() {
+                titles.add(rnd.toString());
+              });
+            },
+            icon: const Icon(Icons.add_alert_outlined),
+          )
         ],
-      ),
+      ), // mainAppBar(context),
       body: appBarBody(),
     );
   }

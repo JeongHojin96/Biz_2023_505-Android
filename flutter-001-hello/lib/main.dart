@@ -2,45 +2,50 @@
 /// 프로젝트 폴더에서 flutter pub get 실행하기
 import 'package:flutter/material.dart';
 
+/// dart 프로젝트 시작점
 void main(List<String> args) {
   MyApp app = const MyApp();
   runApp(app);
 }
 
+/// flutter 로 생성한 app 의 시작점
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      ///생성자 함수
       title: "반갑습니다",
-      theme: ThemeData(primaryColor: const Color.fromRGBO(100, 100, 10, 1)),
+      theme: ThemeData(primarySwatch: Colors.indigo),
       home: const StartPage(),
     );
   }
 }
 
+/// State 를 사용하여 화면에 지속적인 변화를 주기 위한 시작점
+/// StatefullWidget 의 State 위젯을 생성, 컨트롤
 class StartPage extends StatefulWidget {
   const StartPage({super.key});
-
   @override
+
+  /// _StatePage 클래스의 생성자를 호출하여 객체를 생성하는 코드
   State<StartPage> createState() => _StartPage();
 }
 
+/// StartPage(StatefullWidget) 가 생성하고 컨트롤할 State
+/// 클래스 이름에 UnderScore(_)를 붙이면 이 클래스는 private 성질을 갖는다
+/// 현재 버전의 dart 에서는 UnderScore() 를 사용하지 말라고 권하는데,
+/// flutter 의 State 클래스에는 통상 UnderScore() 붙여서 StatefullWedget 의
+/// 이름과 같이 만든다
 class _StartPage extends State<StartPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text("나의 첫 App"),
-      ),
+      appBar: AppBar(title: const Text("나의 첫 App")),
       body: const Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text("반가워"),
-            Text("반가워"),
             Text("반가워"),
             Text("반가워"),
             Text("반가워"),
